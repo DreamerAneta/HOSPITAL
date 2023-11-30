@@ -82,12 +82,9 @@ if ($conn->query($sql) === TRUE) {
 $sql = "CREATE TABLE TICKETS (
     Id_Ticket INT PRIMARY KEY,
     Id_Habitacion INT,
-    Id_Paciente INT,
-    Id_Medico INT,
     Total DECIMAL(10, 2),
     FOREIGN KEY (Id_Habitacion) REFERENCES HABITACIONES(Id_Habitacion),
-    FOREIGN KEY (Id_Paciente) REFERENCES PACIENTES(Id_Paciente),
-    FOREIGN KEY (Id_Medico) REFERENCES MEDICO(Id_Medico)
+
 );
 ";
 if ($conn->query($sql) === TRUE) {
@@ -156,13 +153,13 @@ if ($conn->query($sql) === TRUE) {
     echo "Error inserting data: " . $conn->error;
 }
 
-$sql = "INSERT INTO TICKETS (Id_Ticket, Id_Habitacion, Id_Paciente, Id_Medico, Total)
+$sql = "INSERT INTO TICKETS (Id_Ticket, Id_Habitacion, Total)
 VALUES
-    (1, 1, 1, 2, 150.50),
-    (2, 2, 3, 4, 200.75),
-    (3, 3, 2, 1, 180.00),
-    (4, 4, 4, 3, 300.25),
-    (5, 5, 5, 5, 250.00);
+    (1, 1, 150.50),
+    (2, 2, 200.75),
+    (3, 3, 180.00),
+    (4, 4, 300.25),
+    (5, 5, 250.00);
         ";
 if ($conn->query($sql) === TRUE) {
     echo "Data inserted successfully";
