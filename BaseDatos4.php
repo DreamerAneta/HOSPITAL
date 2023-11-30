@@ -22,62 +22,25 @@ if ($conn->query($sql) === TRUE) {
 $conn->select_db("hospital");
 
 // Create table
-$sql = "CREATE TABLE HABITACION (
-    ID_Habitacion INT NOT NULL AUTO_INCREMENT,
-    Numero INT,
-    Tipo VARCHAR(50),
-    Estado VARCHAR(50),
-    ID_Paciente INT,
-    ID_Medico INT,
-    PRIMARY KEY (ID_Habitacion),
-    FOREIGN KEY (ID_Paciente) REFERENCES PACIENTES(ID_Paciente),
-    FOREIGN KEY (ID_Medico) REFERENCES MEDICO(ID_Medico)
+$sql = "CREATE TABLE MEDICO (
+    Id_Medico INT PRIMARY KEY,
+    Nombre VARCHAR(100),
+    Especialidad VARCHAR(100)
 );
 
-CREATE TABLE PACIENTES (
-    ID_Paciente INT NOT NULL AUTO_INCREMENT,
-    Nombre VARCHAR(50),
-    Apellido VARCHAR(50),
+";
+if ($conn->query($sql) === TRUE) {
+    echo "Table created successfully<br>";
+} else {
+    echo "Error creating table: " . $conn->error;
+}
+
+$sql = "CREATE TABLE PACIENTES (
+    Id_Paciente INT PRIMARY KEY,
+    Nombre VARCHAR(100),
     Edad INT,
-    Genero VARCHAR(20),
-    Direccion VARCHAR(100),
-    ID_Habitacion INT,
-    Fecha_Ingreso DATE,
-    Fecha_Alta DATE,
-    PRIMARY KEY (ID_Paciente),
-    FOREIGN KEY (ID_Habitacion) REFERENCES HABITACION(ID_Habitacion)
-);
-
-CREATE TABLE MEDICO (
-    ID_Medico INT NOT NULL AUTO_INCREMENT,
-    Nombre VARCHAR(50),
-    Especialidad VARCHAR(50),
-    Telefono VARCHAR(20),
-    Correo VARCHAR(100),
-    PRIMARY KEY (ID_Medico)
-);
-
-CREATE TABLE PRODUCTOS (
-    ID_Producto INT NOT NULL AUTO_INCREMENT,
-    Nombre VARCHAR(50),
-    Descripcion TEXT,
-    Precio DECIMAL(10, 2),
-    Cantidad_Disponible INT,
-    PRIMARY KEY (ID_Producto)
-);
-
-CREATE TABLE TICKET_PRODUCTOS (
-    ID_Ticket INT NOT NULL AUTO_INCREMENT,
-    ID_Habitacion INT,
-    ID_Paciente INT,
-    Fecha DATE,
-    Total DECIMAL(10, 2),
-    ID_Producto INT,
-    Cantidad INT,
-    PRIMARY KEY (ID_Ticket),
-    FOREIGN KEY (ID_Habitacion) REFERENCES HABITACION(ID_Habitacion),
-    FOREIGN KEY (ID_Paciente) REFERENCES PACIENTES(ID_Paciente),
-    FOREIGN KEY (ID_Producto) REFERENCES PRODUCTOS(ID_Producto)
+    Direccion VARCHAR(255),
+    Telefono VARCHAR(20)
 );
 ";
 if ($conn->query($sql) === TRUE) {
@@ -86,50 +49,156 @@ if ($conn->query($sql) === TRUE) {
     echo "Error creating table: " . $conn->error;
 }
 
-// Insert data into the table
-$sql = "INSERT INTO HABITACION (Numero, Tipo, Estado, ID_Paciente, ID_Medico) VALUES
-(101, 'Individual', 'Disponible', NULL, 1),
-(102, 'Doble', 'Ocupada', 3, 2),
-(103, 'Suite', 'Disponible', 2, NULL),
-(104, 'Individual', 'Limpieza', NULL, NULL),
-(105, 'Suite', 'Disponible', 4, 1);
+$sql = "CREATE TABLE HABITACIONES (
+    Id_Habitacion INT PRIMARY KEY,
+    Id_Paciente INT,
+    Id_Medico INT,
+    FOREIGN KEY (Id_Paciente) REFERENCES PACIENTES(Id_Paciente),
+    FOREIGN KEY (Id_Medico) REFERENCES MEDICO(Id_Medico)
+);
 
--- Datos para la tabla PACIENTES
-INSERT INTO PACIENTES (Nombre, Apellido, Edad, Género, Dirección, ID_Habitacion, Fecha_Ingreso, Fecha_Alta) VALUES
-('Ana', 'García', 45, 'Femenino', 'Calle 123', NULL, '2023-01-10', '2023-01-25'),
-('Juan', 'López', 30, 'Masculino', 'Av. Principal', 3, '2023-02-05', '2023-02-20'),
-('María', 'Pérez', 55, 'Femenino', 'Plaza Mayor', 2, '2023-03-15', NULL),
-('Carlos', 'Martínez', 28, 'Masculino', 'Callejón 45', 5, '2023-04-20', NULL),
-('Sofia', 'Rodriguez', 60, 'Femenino', 'Av. Central', NULL, '2023-05-12', NULL);
 
--- Datos para la tabla MEDICO
-INSERT INTO MEDICO (Nombre, Especialidad, Teléfono, Correo) VALUES
-('Dr. López', 'Cardiología', '123456789', 'drlopez@email.com'),
-('Dra. Martínez', 'Pediatría', '987654321', 'drmartinez@email.com'),
-('Dr. García', 'Neurología', '111222333', 'drgarcia@email.com'),
-('Dra. Rodríguez', 'Oncología', '444555666', 'drrodriguez@email.com'),
-('Dr. Pérez', 'Traumatología', '777888999', 'drperez@email.com');
+";
+if ($conn->query($sql) === TRUE) {
+    echo "Table created successfully<br>";
+} else {
+    echo "Error creating table: " . $conn->error;
+}
 
--- Datos para la tabla PRODUCTOS
-INSERT INTO PRODUCTOS (Nombre, Descripción, Precio, Cantidad_Disponible) VALUES
-('Analgésico', 'Alivia dolores leves', 10.50, 100),
-('Antibiótico', 'Trata infecciones', 20.25, 75),
-('Vendaje', 'Para curaciones', 5.75, 200),
-('Jeringa', 'Administración de medicamentos', 3.00, 150),
-('Alcohol', 'Desinfectante', 7.80, 120);
 
--- Datos para la tabla TICKET_PRODUCTOS
-INSERT INTO TICKET_PRODUCTOS (ID_Habitacion, ID_Paciente, Fecha, Total, ID_Producto, Cantidad) VALUES
-(2, 3, '2023-01-15', 50.25, 1, 2),
-(3, 2, '2023-02-10', 15.50, 3, 5),
-(5, 4, '2023-03-20', 30.75, 2, 3),
-(1, NULL, '2023-04-25', 27.00, 4, 10),
-(4, NULL, '2023-05-15', 10.50, 5, 1);
+$sql = "CREATE TABLE PRODUCTOS (
+    Id_Producto INT PRIMARY KEY,
+    Nombre VARCHAR(100),
+    Precio DECIMAL(10, 2)
+);
+";
+if ($conn->query($sql) === TRUE) {
+    echo "Table created successfully<br>";
+} else {
+    echo "Error creating table: " . $conn->error;
+}
+
+
+$sql = "CREATE TABLE TICKETS (
+    Id_Ticket INT PRIMARY KEY,
+    Id_Habitacion INT,
+    Id_Paciente INT,
+    Id_Medico INT,
+    Total DECIMAL(10, 2),
+    FOREIGN KEY (Id_Habitacion) REFERENCES HABITACIONES(Id_Habitacion),
+    FOREIGN KEY (Id_Paciente) REFERENCES PACIENTES(Id_Paciente),
+    FOREIGN KEY (Id_Medico) REFERENCES MEDICO(Id_Medico)
+);
+";
+if ($conn->query($sql) === TRUE) {
+    echo "Table created successfully<br>";
+} else {
+    echo "Error creating table: " . $conn->error;
+}
+
+
+$sql = "CREATE TABLE DETALLES (
+    Id_Detalle INT PRIMARY KEY,
+    Id_Ticket INT,
+    Id_Producto INT,
+    Cantidad INT,
+    Precio DECIMAL(10, 2),
+    FOREIGN KEY (Id_Ticket) REFERENCES TICKETS(Id_Ticket),
+    FOREIGN KEY (Id_Producto) REFERENCES PRODUCTOS(Id_Producto)
+);
+";
+if ($conn->query($sql) === TRUE) {
+    echo "Table created successfully<br>";
+} else {
+    echo "Error creating table: " . $conn->error;
+}
+
+
+$sql = "INSERT INTO MEDICO (Id_Medico, Nombre, Especialidad)
+VALUES
+    (1, 'Dr. García', 'Cardiología'),
+    (2, 'Dr. Martínez', 'Neurología'),
+    (3, 'Dr. Rodríguez', 'Pediatría'),
+    (4, 'Dra. López', 'Dermatología'),
+    (5, 'Dr. Fernández', 'Oftalmología');
+    ";
+if ($conn->query($sql) === TRUE) {
+    echo "Data inserted successfully";
+} else {
+    echo "Error inserting data: " . $conn->error;
+}
+
+$sql = "INSERT INTO PACIENTES (Id_Paciente, Nombre, Edad, Direccion, Telefono)
+VALUES
+    (1, 'María González', 45, 'Calle Principal 123', '555-1234'),
+    (2, 'Juan Pérez', 30, 'Avenida Central 456', '555-5678'),
+    (3, 'Ana Rodríguez', 22, 'Calle Secundaria 789', '555-9012'),
+    (4, 'Pedro Martínez', 50, 'Paseo de la Montaña 210', '555-3456'),
+    (5, 'Laura Díaz', 28, 'Avenida del Río 15', '555-7890');
+        ";
+if ($conn->query($sql) === TRUE) {
+    echo "Data inserted successfully";
+} else {
+    echo "Error inserting data: " . $conn->error;
+}
+
+$sql = "INSERT INTO HABITACIONES (Id_Habitacion, Id_Paciente, Id_Medico)
+VALUES
+    (1, 1, 2),
+    (2, 3, 4),
+    (3, 2, 1),
+    (4, 4, 3),
+    (5, 5, 5);
+        ";
+if ($conn->query($sql) === TRUE) {
+    echo "Data inserted successfully";
+} else {
+    echo "Error inserting data: " . $conn->error;
+}
+
+$sql = "INSERT INTO TICKETS (Id_Ticket, Id_Habitacion, Id_Paciente, Id_Medico, Total)
+VALUES
+    (1, 1, 1, 2, 150.50),
+    (2, 2, 3, 4, 200.75),
+    (3, 3, 2, 1, 180.00),
+    (4, 4, 4, 3, 300.25),
+    (5, 5, 5, 5, 250.00);
+        ";
+if ($conn->query($sql) === TRUE) {
+    echo "Data inserted successfully";
+} else {
+    echo "Error inserting data: " . $conn->error;
+}
+
+$sql = "INSERT INTO PRODUCTOS (Id_Producto, Nombre, Precio)
+VALUES
+    (101, 'Aspirina', 25.00),
+    (102, 'Analgésico', 100.00),
+    (103, 'Vendaje', 10.00),
+    (104, 'Antiséptico', 5.00),
+    (105, 'Antibiótico', 62.50);
+
 ";
 if ($conn->query($sql) === TRUE) {
     echo "Data inserted successfully";
 } else {
     echo "Error inserting data: " . $conn->error;
 }
+
+$sql = "INSERT INTO DETALLES (Id_Detalle, Id_Ticket, Id_Producto, Cantidad, Precio)
+VALUES
+    (1, 1, 101, 2, 50.25),
+    (2, 2, 102, 1, 100.50),
+    (3, 3, 103, 3, 30.00),
+    (4, 4, 104, 4, 25.25),
+    (5, 5, 105, 2, 125.00);
+        ";
+if ($conn->query($sql) === TRUE) {
+    echo "Data inserted successfully";
+} else {
+    echo "Error inserting data: " . $conn->error;
+}
+
+
 
 $conn->close();
