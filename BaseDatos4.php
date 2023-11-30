@@ -83,7 +83,7 @@ $sql = "CREATE TABLE TICKETS (
     Id_Ticket INT PRIMARY KEY,
     Id_Habitacion INT,
     Total DECIMAL(10, 2),
-    FOREIGN KEY (Id_Habitacion) REFERENCES HABITACIONES(Id_Habitacion),
+    FOREIGN KEY (Id_Habitacion) REFERENCES HABITACIONES(Id_Habitacion)
 
 );
 ";
